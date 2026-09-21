@@ -1,0 +1,31 @@
+{% extends "layouts/base_app.html" %}
+{% block content %}
+<div class="container-lg">
+<h3 class="text-center my-2">Log In</h3>
+<div class="row">
+  <form class="col text-center mx-auto mt-3" method="POST" action="{{ url_for('auth.login') }}">
+    <div class="form-section mx-auto p-2">
+        <div class="mb-3">
+            <label for="inputemail" class="form-label">Email address</label>
+            <input type="email" name="username" class="form-control mx-auto" id="inputemail" aria-describedby="inputemail" autocomplete="username" />
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control mx-auto" id="password" autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn btn-primary my-3">Sign in</button>
+    </div>
+</form>
+</div>
+
+<div class="row">
+    <div class="col">
+        <p class="text-center sub-text-login mt-3">
+            New Here?
+            <a href="{{ url_for('auth.register') }}" >Register Account</a>
+        </p>
+    </div>
+</div>
+
+</div>
+{% endblock %}

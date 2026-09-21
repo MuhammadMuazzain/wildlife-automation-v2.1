@@ -1,0 +1,4 @@
+﻿property_name,contact_name,phone,email,address,suburb,postcode,state,crop_focus,capacity,facilities,latitude,longitude,status,assigned_coordinator
+Riverside Beds Block A,A. Nguyen,0400 111 222,a.nguyen@example.com,12 Creek Rd,Mission District,94110,CA,Vegetables,4,Raised beds,37.7599,-122.4148,Active,
+Hilltop Orchard Corner,J. Patel,0400 333 444,j.patel@example.com,88 Ridge St,Noe Valley,94114,CA,Fruit trees,8,Greenhouse,37.7502,-122.4337,Active,
+Laneway Herb Patch,M. Chen,0400 555 666,m.chen@example.com,5 Willow Lane,Bernal Heights,94110,CA,Herbs,6,Water tap,37.7410,-122.4181,Pending Review,

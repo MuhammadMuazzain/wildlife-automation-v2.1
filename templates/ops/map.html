@@ -1,0 +1,53 @@
+{% extends "layouts/base_app.html" %}
+{% block styles %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<style>
+  #sites-map { height: 70vh; width: 100%; border-radius: 0.5rem; }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container-lg">
+  <div class="row my-3 align-items-center">
+    <div class="col-md-8">
+      <h2 class="mb-0">Garden plot map</h2>
+      <p class="text-muted mb-0">Plots with latitude and longitude appear here so coordinators do not need a separate map export.</p>
+    </div>
+    <div class="col-md-4 text-md-end">
+      <a class="btn btn-outline-secondary" href="{{ url_for('sites.list_sites') }}">Plot list</a>
+    </div>
+  </div>
+  <div id="sites-map"></div>
+  {% if not map_points %}
+  <p class="text-muted mt-3">No mapped plots yet. Add latitude/longitude on a plot record, or import a CSV that includes those columns.</p>
+  {% endif %}
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+  const points = {{ map_points|tojson }};
+  const map = L.map('sites-map').setView([37.77, -122.42], 11);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap'
+  }).addTo(map);
+
+  const bounds = [];
+  points.forEach(function (point) {
+    const marker = L.marker([point.lat, point.lng]).addTo(map);
+    marker.bindPopup(
+      '<strong>' + (point.property_name || 'Plot') + '</strong><br>' +
+      'Plot #' + point.site_number + '<br>' +
+      (point.suburb || '') + '<br>' +
+      'Status: ' + point.status + '<br>' +
+      'Crop focus: ' + (point.crop_focus || '—') + '<br>' +
+      'Coordinator: ' + point.assigned_coordinator + '<br>' +
+      '<a href="/sites/' + point.id + '">Open record</a>'
+    );
+    bounds.push([point.lat, point.lng]);
+  });
+  if (bounds.length) {
+    map.fitBounds(bounds, { padding: [40, 40] });
+  }
+</script>
+{% endblock %}

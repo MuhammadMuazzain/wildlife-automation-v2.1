@@ -1,0 +1,65 @@
+{% extends "layouts/base_app.html" %}
+{% block content %}
+<div class="container-lg">
+    <div class="row">
+      <div class="col-md-6">
+      <h2 class="my-3">Garden plots</h2>
+      </div>
+      <div class="col-md-6">
+        <form action="{{ url_for('sites.search') }}" method="post">
+        <div class="input-group mb-3 my-3">
+          <input type="text" class="form-control maximum-width" name="query" id="query" minlength="2" aria-label="Search query" required>
+          <div class="btn-group">
+            <button type="submit" class="btn btn-outline-secondary fw-bold" aria-label="Search button"><span class="d-none d-sm-inline">Search </span><i class="bi bi-search pe-1"></i></button>
+            <button type="button" class="btn dropdown-toggle dropdown-toggle-split btn-outline-secondary" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Filter button">
+              <span class="fw-bold"><span class="d-none d-sm-inline">Filters </span><i class="bi bi-funnel"></i></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ url_for('sites.list_sites', filter='user') }}">My applications</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('sites.list_sites', filter='pending') }}">Pending review</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('sites.list_sites', filter='active') }}">Active plots</a></li>
+              {% if is_coordinator %}
+              <li><a class="dropdown-item" href="{{ url_for('sites.list_sites', filter='assigned') }}">Assigned to me</a></li>
+              {% endif %}
+              <li><a class="dropdown-item" href="{{ url_for('sites.list_sites') }}">All plots</a></li>
+            </ul>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+<div class="row">
+    <div class="col-md-6 offset-md-4 text-center">
+    {{ pagination.info }}
+    </div>
+</div>
+<div class="row">
+    {% for site in sites %}
+    <div class="col-sm-6 g-4">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title fw-bold">{{ site.property_name or site.location }}</h4>
+          <p class="card-text">Suburb: {{ site.suburb or "—" }}</p>
+          <p class="card-text">Crop focus: {{ site.crop_focus or "—" }}</p>
+          <p class="card-text">Status: {{ site.status }}</p>
+          <p class="card-text">Coordinator: {{ site.assigned_coordinator or "Unassigned" }}</p>
+          <a href="{{ url_for('sites.detail', site_id=site._id) }}" class="btn btn-link">View plot</a>
+        </div>
+        <div class="card-footer">
+          <small>Plot #{{ site.site_number }} · Applied {{ site.application_date }} · By {{ site.created_by }}</small>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="col-12 my-4">
+      <p class="text-muted">No garden plots match this view. Apply online or import a CSV master file.</p>
+    </div>
+    {% endfor %}
+</div>
+<div class="row">
+    <div class="col-6 offset-4 mt-5">
+    {{ pagination.links }}
+    </div>
+</div>
+</div>
+{% endblock %}

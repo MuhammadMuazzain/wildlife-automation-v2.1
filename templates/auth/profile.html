@@ -1,0 +1,39 @@
+{% extends "layouts/base_app.html" %}
+{% block content %}
+
+<div class="container-lg">
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <p class="text-center mt-3">
+                Logged in as {{ username }} · Role: {{ role }}
+            </p>
+            <p class="text-center mt-3">
+                <a class="btn btn-link" href="{{ url_for('sites.list_sites', filter='user') }}">View my plot applications</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<form class="row mx-auto mt-3 g-3 maximum-width" method="POST" action="{{ url_for('auth.profile', username=session['user']) }}">
+    <fieldset id="fieldsetProfile" disabled="disabled" class="col-md-12">
+        <div>
+            <label for="inputName" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="inputName" name="name" value="{{ fullname }}" />
+        </div>
+        <div>
+            <label for="inputAddress" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="inputAddress" name="phone" value="{{ phone }}" />
+        </div>
+        <div class="mt-3">
+            <button id="updateProfileBtn" type="submit" class="btn btn-success visually-hidden">Update your contact details</button>
+        </div>
+    </fieldset>
+    <div class="mb-3">
+        <button id="editProfileBtn" type="button" class="btn btn-outline-primary">Edit your contact details</button>
+    </div>
+</form>
+
+</div>
+<script src="{{ url_for('static', filename='js/profile-edit.js') }}"></script>
+{% endblock %}

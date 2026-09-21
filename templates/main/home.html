@@ -1,0 +1,52 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<div class="container-lg">
+  <div class="row my-3">
+    <div class="col-md-8">
+      <img src="{{ url_for('static', filename='images/hero-garden.jpg') }}" class="img-fluid rounded-3" alt="Community garden beds">
+    </div>
+    <div class="col-md-4">
+      <h1 class="h3 fw-bold">Community garden plot registry</h1>
+      <p>PlotDesk helps neighbourhood garden networks replace ad-hoc forms and shared spreadsheets with a single place to collect plot applications, review grow sites, and hand plots to coordinators.</p>
+      <p>Growers apply online. Coordinators can search, assign, and view active plots on a map — without retyping email summaries into Excel.</p>
+      <div class="text-center mb-3">
+      {% if session.user %}
+      <a href="{{ url_for('sites.apply') }}" class="btn btn-success">Apply for a garden plot <i class="bi bi-card-checklist"></i></a>
+      {% else %}
+      <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Register</a>
+      <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary">Log In</a>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card-group">
+        <div class="card mx-2 border-white">
+          <img src="{{ url_for('static', filename='images/care-01.jpg') }}" class="card-img-top rounded-3" alt="Raised garden beds">
+          <div class="card-body">
+            <h5 class="card-title">1. Apply online</h5>
+            <p class="card-text">Members submit plot details, crop focus, facilities, and availability through a web form instead of a third-party form tool.</p>
+          </div>
+        </div>
+        <div class="card mx-2 border-white">
+          <img src="{{ url_for('static', filename='images/care-02.jpg') }}" class="card-img-top rounded-3" alt="Garden tools and beds">
+          <div class="card-body">
+            <h5 class="card-title">2. Review &amp; assign</h5>
+            <p class="card-text">Plot coordinators filter pending applications, update status, and assign plots when beds or grow space become available.</p>
+          </div>
+        </div>
+        <div class="card mx-2 border-white">
+          <img src="{{ url_for('static', filename='images/care-03.jpg') }}" class="card-img-top rounded-3" alt="Community gardening">
+          <div class="card-body">
+            <h5 class="card-title">3. Import &amp; map</h5>
+            <p class="card-text">Load an existing master spreadsheet (CSV) to trial the data model, then view geocoded plots on a shared map without manual copy-paste.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

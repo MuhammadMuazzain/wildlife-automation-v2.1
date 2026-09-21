@@ -1,0 +1,113 @@
+{% extends "layouts/base_app.html" %}
+{% block content %}
+<div class="container-lg">
+<h3 class="my-3 fw-bold">Garden plot application</h3>
+
+<form class="row g-3 mx-auto" method="POST" action="{{ url_for('sites.apply') }}">
+  <div class="col-md-6">
+      <div class="mb-3 maximum-width">
+          <label for="application_date" class="form-label">Application date</label>
+          <input type="date" class="form-control" id="application_date" name="application_date" required />
+      </div>
+      <div class="mb-3">
+          <label for="property_name" class="form-label">Plot / site name</label>
+          <input type="text" class="form-control" id="property_name" name="property_name" required />
+      </div>
+      <div class="mb-3">
+          <label for="contact_name" class="form-label">Primary contact</label>
+          <input type="text" class="form-control" id="contact_name" name="contact_name" required />
+      </div>
+      <div class="mb-3 maximum-width">
+          <label for="phone" class="form-label">Phone</label>
+          <input type="text" class="form-control" id="phone" name="phone" />
+      </div>
+      <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" />
+      </div>
+      <div class="mb-3">
+          <label for="location" class="form-label">Address search</label>
+          <input type="text" class="form-control" id="location" name="location" placeholder="Start typing an address" required />
+      </div>
+      <div class="mb-3">
+          <label for="address" class="form-label">Street address</label>
+          <input type="text" class="form-control" id="address" name="address" required />
+      </div>
+      <div class="row">
+        <div class="col-md-5 mb-3">
+          <label for="suburb" class="form-label">Suburb / neighbourhood</label>
+          <input type="text" class="form-control" id="suburb" name="suburb" required />
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="postcode" class="form-label">Postcode</label>
+          <input type="text" class="form-control" id="postcode" name="postcode" />
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="state" class="form-label">State / region</label>
+          <input type="text" class="form-control" id="state" name="state" />
+        </div>
+      </div>
+  </div>
+  <div class="col-md-6">
+      <div class="mb-3 maximum-width">
+          <label for="crop_focus" class="form-label">Crop focus</label>
+          <input class="form-control" list="cropOptions" id="crop_focus" name="crop_focus" placeholder="Type to search..." required />
+          <datalist id="cropOptions">
+              {% for group in crop_focuses %}
+              <option value="{{ group.name }}"></option>
+              {% endfor %}
+          </datalist>
+      </div>
+      <div class="mb-3 maximum-width">
+          <label for="capacity" class="form-label">Approx. bed / plot capacity</label>
+          <input type="number" min="1" class="form-control" id="capacity" name="capacity" />
+      </div>
+      <div class="mb-3 maximum-width">
+          <label for="facilities" class="form-label">Facilities on site</label>
+          <input class="form-control" list="facilityOptions" id="facilities" name="facilities" placeholder="Type to search..." />
+          <datalist id="facilityOptions">
+              {% for facility in facilities %}
+              <option value="{{ facility.name }}"></option>
+              {% endfor %}
+          </datalist>
+      </div>
+      <div class="mb-3 maximum-width">
+          <label for="available_from" class="form-label">Available from</label>
+          <input type="date" class="form-control" id="available_from" name="available_from" />
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="latitude" class="form-label">Latitude</label>
+          <input type="text" class="form-control" id="latitude" name="latitude" placeholder="37.77" />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="longitude" class="form-label">Longitude</label>
+          <input type="text" class="form-control" id="longitude" name="longitude" placeholder="-122.42" />
+        </div>
+      </div>
+      <div class="mb-3">
+          <img src="{{ url_for('static', filename='images/blank-image.png') }}" class="img-thumbnail" id="img-thumbnail" alt="Plot photo placeholder" />
+          <button id="upload_widget" class="btn btn-outline-secondary mx-3" type="button">Photo upload</button>
+          <input type="url" class="form-control visually-hidden" id="image" name="image_url" />
+      </div>
+      <div class="mb-3">
+          <label for="notes" class="form-label">Notes for coordinators</label>
+          <textarea class="form-control" name="notes" id="notes" rows="3" cols="30"></textarea>
+      </div>
+      <div class="mb-3">
+          <button type="submit" class="btn btn-primary">Submit application <i class="bi bi-save"></i></button>
+      </div>
+      <div class="mb-3">
+          <a href="{{ url_for('sites.list_sites') }}" class="btn btn-link">Back to all plots</a>
+      </div>
+  </div>
+</form>
+</div>
+<script src="{{ url_for('static', filename='js/site-date-default.js') }}"></script>
+{% if google_maps_api_key %}
+<script src="{{ url_for('static', filename='js/address-autocomplete.js') }}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=places&callback=initAutocomplete" async defer></script>
+{% endif %}
+<script src="https://upload-widget.cloudinary.com/global/all.js"></script>
+<script src="{{ url_for('static', filename='js/media-upload.js') }}"></script>
+{% endblock %}

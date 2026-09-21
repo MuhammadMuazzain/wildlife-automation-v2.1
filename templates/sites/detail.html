@@ -1,0 +1,161 @@
+{% extends "layouts/base_app.html" %}
+{% block content %}
+<div class="container-lg">
+<h3 class="my-3"><span id="heading-site-view-page">View garden plot</span> (# {{ site.site_number }})</h3>
+
+<form class="row g-3 mx-auto" method="POST" action="{{ url_for('sites.detail', site_id=site._id) }}">
+  <div class="col-md-6">
+      <fieldset id="fieldset1" disabled="disabled">
+          <div class="mb-3 maximum-width">
+              <label for="application_date" class="form-label">Application date</label>
+              <input type="date" class="form-control" id="application_date" name="application_date" value="{{ site.application_date }}" required />
+          </div>
+          <div class="mb-3">
+              <label for="property_name" class="form-label">Plot / site name</label>
+              <input type="text" class="form-control" id="property_name" name="property_name" value="{{ site.property_name }}" required />
+          </div>
+          <div class="mb-3">
+              <label for="contact_name" class="form-label">Primary contact</label>
+              <input type="text" class="form-control" id="contact_name" name="contact_name" value="{{ site.contact_name }}" />
+          </div>
+          <div class="mb-3 maximum-width">
+              <label for="phone" class="form-label">Phone</label>
+              <input type="text" class="form-control" id="phone" name="phone" value="{{ site.phone }}" />
+          </div>
+          <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email" value="{{ site.email }}" />
+          </div>
+          <div class="mb-3">
+              <label for="location" class="form-label">Address search</label>
+              <input type="text" class="form-control" id="location" name="location" value="{{ site.location }}" required />
+          </div>
+          <div class="mb-3">
+              <label for="address" class="form-label">Street address</label>
+              <input type="text" class="form-control" id="address" name="address" value="{{ site.address }}" />
+          </div>
+          <div class="row">
+            <div class="col-md-5 mb-3">
+              <label for="suburb" class="form-label">Suburb / neighbourhood</label>
+              <input type="text" class="form-control" id="suburb" name="suburb" value="{{ site.suburb }}" />
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="postcode" class="form-label">Postcode</label>
+              <input type="text" class="form-control" id="postcode" name="postcode" value="{{ site.postcode }}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="state" class="form-label">State / region</label>
+              <input type="text" class="form-control" id="state" name="state" value="{{ site.state }}" />
+            </div>
+          </div>
+      </fieldset>
+  </div>
+  <div class="col-md-6">
+      <fieldset id="fieldset2" disabled="disabled">
+          <div class="mb-3 maximum-width">
+              <label for="crop_focus" class="form-label">Crop focus</label>
+              <input type="text" class="form-control" id="crop_focus" name="crop_focus" value="{{ site.crop_focus }}" required />
+          </div>
+          <div class="mb-3 maximum-width">
+              <label for="capacity" class="form-label">Capacity</label>
+              <input type="text" class="form-control" id="capacity" name="capacity" value="{{ site.capacity }}" />
+          </div>
+          <div class="mb-3 maximum-width">
+              <label for="facilities" class="form-label">Facilities</label>
+              <input type="text" class="form-control" id="facilities" name="facilities" value="{{ site.facilities }}" />
+          </div>
+          <div class="mb-3 maximum-width">
+              <label for="available_from" class="form-label">Available from</label>
+              <input type="date" class="form-control" id="available_from" name="available_from" value="{{ site.available_from }}" />
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="latitude" class="form-label">Latitude</label>
+              <input type="text" class="form-control" id="latitude" name="latitude" value="{{ site.latitude }}" />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="longitude" class="form-label">Longitude</label>
+              <input type="text" class="form-control" id="longitude" name="longitude" value="{{ site.longitude }}" />
+            </div>
+          </div>
+          <div class="mb-3">
+              {% if site.image_url %}
+              <a href="{{ site.image_url }}" target="_blank" rel="noreferrer"><img src="{{ site.image_url }}" class="img-thumbnail" id="img-thumbnail" alt="Plot photo" /></a>
+              {% else %}
+              <img src="{{ url_for('static', filename='images/blank-image.png') }}" class="img-thumbnail" id="img-thumbnail" alt="No photo" />
+              {% endif %}
+              <button id="upload_widget" class="btn btn-outline-secondary mx-3 visually-hidden" type="button">Upload/replace photo <i class="bi bi-cloud-arrow-up-fill"></i></button>
+              <input type="url" class="form-control visually-hidden" id="image" name="image_url" value="{{ site.image_url }}" />
+          </div>
+          <div class="mb-3 maximum-width">
+              <label for="status" class="form-label">Status</label>
+              <select class="form-select" id="status" name="status">
+                  {% for status in statuses %}
+                  <option value="{{ status.status }}" {% if status.status == site.status %}selected{% endif %}>{{ status.status }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+          {% if is_coordinator %}
+          <div class="mb-3 maximum-width">
+              <label for="assigned_coordinator" class="form-label">Assigned plot coordinator</label>
+              <select class="form-select" id="assigned_coordinator" name="assigned_coordinator">
+                  <option value="">Unassigned</option>
+                  {% for coordinator in coordinators %}
+                  <option value="{{ coordinator.username }}" {% if coordinator.username == site.assigned_coordinator %}selected{% endif %}>
+                    {{ coordinator.get('full-name', coordinator.username) }} ({{ coordinator.username }})
+                  </option>
+                  {% endfor %}
+              </select>
+          </div>
+          {% endif %}
+          <div class="mb-3">
+              <label for="notes" class="form-label">Add a note</label>
+              <textarea class="form-control" name="notes" id="notes" rows="3" cols="30"></textarea>
+              <ul>
+                  {% for note in notes_array %}
+                  <li class="site-note"><span>{{ note.note }}</span> <span class="site-note-subtext">Added on: ({{ note.date_time }})</span></li>
+                  {% endfor %}
+              </ul>
+          </div>
+          <div class="mb-3">
+              <button id="saveSiteBtn" type="submit" class="btn btn-success visually-hidden">Save changes <i class="bi bi-save"></i></button>
+              <button id="deleteSiteBtn" type="button" class="btn btn-outline-danger visually-hidden" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Delete plot <i class="bi bi-trash-fill"></i></button>
+          </div>
+      </fieldset>
+      {% if can_edit %}
+      <div class="mb-3">
+          <button id="editSiteBtn" type="button" class="btn btn-primary">Edit this plot <i class="bi bi-pencil"></i></button>
+      </div>
+      {% endif %}
+      <div class="mb-3">
+          <a href="{{ url_for('sites.list_sites') }}" class="btn btn-link">Back to all plots</a>
+      </div>
+  </div>
+</form>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Delete garden plot?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        This removes plot #{{ site.site_number }} and its notes. This cannot be undone.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a href="{{ url_for('sites.delete', site_id=site._id) }}" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script src="{{ url_for('static', filename='js/site-edit.js') }}"></script>
+{% if google_maps_api_key %}
+<script src="{{ url_for('static', filename='js/address-autocomplete.js') }}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=places&callback=initAutocomplete" async defer></script>
+{% endif %}
+<script src="https://upload-widget.cloudinary.com/global/all.js"></script>
+<script src="{{ url_for('static', filename='js/media-upload.js') }}"></script>
+{% endblock %}

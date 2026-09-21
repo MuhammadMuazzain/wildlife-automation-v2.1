@@ -1,0 +1,49 @@
+{% extends "layouts/base_app.html" %}
+{% block content %}
+<div class="container-lg">
+<h3 class="text-center my-2">Register</h3>
+
+<div class="row">
+<form class="col g-3" method="POST" action="{{ url_for('auth.register') }}">
+    <div class="form-section mx-auto p-2">
+        <div>
+            <label for="inputEmail4" class="form-label">Email / Username</label>
+            <input type="email" class="form-control mx-auto" id="inputEmail4" name="username" placeholder="Please enter a valid email address" autocomplete="username" required />
+        </div>
+        <div>
+            <label for="inputPassword4" class="form-label">Password</label>
+            <input type="password" class="form-control mx-auto" id="inputPassword4" name="password" minlength="8" autocomplete="new-password" required />
+        </div>
+        <div>
+            <label for="inputFullName" class="form-label">Full Name</label>
+            <input type="text" class="form-control mx-auto" id="inputFullName" name="full-name" placeholder="Please enter your full name" required />
+        </div>
+        <div>
+            <label for="inputPhoneNumber" class="form-label">Phone Number</label>
+            <input type="text" class="form-control mx-auto" id="inputPhoneNumber" name="phone" placeholder="Phone number" />
+        </div>
+        <div>
+            <label for="inputRole" class="form-label">I am registering as</label>
+            <select class="form-select mx-auto" id="inputRole" name="role">
+                <option value="applicant" selected>Garden plot applicant</option>
+                <option value="coordinator">Plot coordinator</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary my-3">Register</button>
+        </div>
+    </div>
+</form>
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <p class="text-center sub-text-register mt-3">
+            Already Registered?
+            <a href="{{ url_for('auth.login') }}" >Log In</a>
+        </p>
+    </div>
+</div>
+
+</div>
+{% endblock %}

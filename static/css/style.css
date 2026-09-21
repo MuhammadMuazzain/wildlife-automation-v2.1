@@ -1,0 +1,115 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap'); /* google fonts*/
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"); /* bootstap icons*/
+
+* {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+body{
+    font-family: 'Rubik', sans-serif; 
+    font-size: 1rem;
+    background-color: #FFFFFD ; /* Black White */
+    color:  #000  ; 
+}
+
+#header {
+    background-color: #ADCE4B ;  /* Tumeric */
+    color: #000; 
+}
+
+/* navbar section  */
+
+.navbar-light .navbar-brand {
+    color: #000 ;
+}
+.navbar-light .navbar-nav .nav-link{
+    color: #000 ;
+}
+
+/* Alerts section */
+.alert-heron{
+    background-color: #FEE579 ; /* Kournikova */ 
+}
+
+.btn-success, .btn-primary{
+    background-color: #829B38 ; /* Sushi */ 
+}
+
+/* login and register screen */
+
+.form-section{
+    max-width: 600px;
+    -webkit-box-shadow: 0px 0px 2px rgb(0 0 0 / 70%);
+            box-shadow: 0px 0px 2px rgb(0 0 0 / 70%);
+    border-radius: 6px;
+    background-color: #adce4ba3;
+}
+
+.sub-text-login, .sub-text-register{
+    font-size: .85rem ;
+}
+
+/* view case and add case screens */
+
+.maximum-width{
+    max-width: 33rem;
+} /* this keeps sections narrow for smaller screens */
+
+.img-thumbnail{
+    max-width: 20rem;
+}
+
+.site-note{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+}
+
+.site-note-subtext{
+    font-size: .75rem;
+    font-style: italic;
+    color: #8f8f8f;
+}
+
+/* Pagination on the sites list */
+
+.pagination-page-info {
+    max-width: 33rem;
+    text-align: center;
+    padding: .6em;
+    margin: .5em;
+    margin-left: 0;
+}
+
+.pagination-page-info b {
+    padding-left: .6em;
+    padding: .1em .25em;
+}
+
+span.sr-only{
+    display: none;
+  } /* this hides the phrase 'current' showing up in the pagination info section */
+
+/* Footer section */
+
+#footer {
+    background-color: #6C6666  ; /* Dove Gray */
+    color:  #FFFFFD  ; /* Black White */
+}
+
+.footer-list-item {
+	color: #FFFFFD ; /* Black White */
+	padding: 0rem 1rem 0rem 1rem;
+}

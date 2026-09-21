@@ -1,0 +1,33 @@
+{% extends "layouts/base_app.html" %}
+{% block content %}
+<div class="container-lg">
+  <h2 class="my-3">Import garden plot master data</h2>
+  <p>Upload a CSV export of an existing spreadsheet to load plot rows into the registry. Excel workbooks can be saved as CSV first.</p>
+
+  <div class="alert alert-heron">
+    Expected columns (headers are flexible):
+    <code>property_name</code>, <code>contact_name</code>, <code>phone</code>, <code>email</code>,
+    <code>address</code>, <code>suburb</code>, <code>postcode</code>, <code>state</code>,
+    <code>crop_focus</code>, <code>capacity</code>, <code>facilities</code>,
+    <code>latitude</code>, <code>longitude</code>, <code>status</code>, <code>assigned_coordinator</code>
+  </div>
+
+  <form method="POST" enctype="multipart/form-data" class="mb-4">
+    <div class="mb-3">
+      <label for="spreadsheet" class="form-label">CSV file</label>
+      <input class="form-control" type="file" id="spreadsheet" name="spreadsheet" accept=".csv,text/csv" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Import plots</button>
+    <a class="btn btn-link" href="{{ url_for('static', filename='sample_data/sites_import_sample.csv') }}">Download sample CSV</a>
+  </form>
+
+  {% if summary %}
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Last import</h5>
+      <p class="mb-0">Created: {{ summary.created }} · Skipped: {{ summary.skipped }}</p>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
